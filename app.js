@@ -13,7 +13,7 @@ const randomUserAgent = require('random-useragent');
         throw new Error('No valid Start URLs provided in the input.');
     }
 
-    const playDuration = input.playDuration || 131432; // Default to 2+ minutes if not provided
+    const playDuration = input.playDuration || Math.floor(Math.random() * (122000 - 120001 + 1)) + 120001; // Default to random between 120001 and 122000 seconds
 
     const youtubeRequests = input.startUrls.map(item => ({ url: item.url }));
     let proxyConfiguration;
