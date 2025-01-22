@@ -1,0 +1,27 @@
+{
+    "title": "Url adder",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Youtube URLs",
+            "type": "array",
+            "description": "URLs",
+            "prefill": [
+                {
+                    "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw"
+                }
+            ],
+            "editor": "requestListSources"
+        },
+        "proxyCountryCode": {
+            "title": "Proxy Country Code",
+            "type": "string",
+            "description": "Specify the two-letter country code for remote proxies, or 'LOCAL' for a local proxy.",
+            "default": "FR",
+            "maxLength": 2,
+            "editor": "textfield"
+        }
+    },
+    "required": ["startUrls"]
+}
