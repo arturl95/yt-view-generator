@@ -21,7 +21,7 @@ const randomUserAgent = require('random-useragent');
 
     const viewGenerator = new PlaywrightCrawler({
         launchContext: {
-            launchOptions: { headless: false }, // Browser opens in non-headless mode
+            launchOptions: { headless: true },
         },
         browserPoolOptions: {
             useFingerprints: true,
