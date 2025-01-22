@@ -21,12 +21,14 @@ const randomUserAgent = require('random-useragent');
 
     const viewGenerator = new PlaywrightCrawler({
         launchContext: {
-            launchOptions: { headless: true },
+            launchOptions: { headless: false }, // Browser opens in non-headless mode
         },
         browserPoolOptions: {
             useFingerprints: true,
         },
         proxyConfiguration,
+        requestHandlerTimeoutSecs: 180, // Extend timeout for requestHandler
+        maxRequestRetries: 2, // Limit retries
         preNavigationHooks: [
             async ({ page }) => {
                 await page.setExtraHTTPHeaders({
@@ -38,7 +40,7 @@ const randomUserAgent = require('random-useragent');
         requestHandler: async ({ page, request }) => {
             try {
                 console.log(`Opening video URL: ${request.url}`);
-                await page.goto(request.url, { waitUntil: 'networkidle' });
+                await page.goto(request.url, { waitUntil: 'networkidle', timeout: 120000 }); // Extend navigation timeout
 
                 console.log(`Checking for consent dialog...`);
                 const rejectButtonSelector = 'button[aria-label="Reject the use of cookies and other data for the purposes described"]';
@@ -52,8 +54,9 @@ const randomUserAgent = require('random-useragent');
 
                 console.log(`Playing video on ${request.url}`);
                 // Wait for the video container and play the video
-                await page.waitForSelector('#movie_player', { timeout: 15000 });
-                const videoContainer = await page.$('#movie_player');
+                const videoPlayerSelector = '#movie_player';
+                await page.waitForSelector(videoPlayerSelector, { timeout: 15000 });
+                const videoContainer = await page.$(videoPlayerSelector);
                 if (videoContainer) {
                     await page.evaluate(container => {
                         const video = container.querySelector('video');
@@ -70,7 +73,7 @@ const randomUserAgent = require('random-useragent');
             }
         },
         failedRequestHandler: ({ request }) => {
-            console.error(`Failed to generate view for ${request.url}`);
+            console.error(`Failed to generate view for ${request.url} after retries.`);
         },
     });
 
