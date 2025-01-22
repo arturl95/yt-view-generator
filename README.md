@@ -1,4 +1,3 @@
-```markdown
 # YouTube View Generator
 
 The YouTube View Generator is a tool designed to simulate views for YouTube videos. By opening the provided video URLs in a browser, the tool helps to increase the view count of your videos in a controlled and consistent manner.
