@@ -79,6 +79,7 @@ const randomUserAgent = require('random-useragent');
 
     console.log('Starting view generator...');
     await viewGenerator.run(youtubeRequests);
+    await Actor.pushData({result:true});
     console.log('View generation process finished.');
     await Actor.exit();
 })();
